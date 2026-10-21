@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Yapper Wrapped</title>
+<style>
+:root{--red:#e61e2b;--bg:#09090d;--card:#17171f;--muted:#a5a5b4;--white:#f8f7fb}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--white);font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input{font:inherit}.app{min-height:100dvh;display:flex;flex-direction:column;align-items:center;padding:20px 16px 30px}
+.top{width:100%;max-width:520px;display:flex;justify-content:space-between;align-items:center;margin:6px 0 18px}.brand{font-weight:900;letter-spacing:-1px;font-size:22px}.brand span{color:var(--red)}.tag{font-size:11px;color:var(--muted);letter-spacing:2px}
+.deck{width:100%;max-width:520px}.slide{display:none;position:relative;overflow:hidden;min-height:590px;height:min(72dvh,720px);border-radius:28px;padding:30px 25px;background:radial-gradient(circle at 90% 10%,#e61e2b 0,transparent 36%),linear-gradient(145deg,#242432,#111117 72%);border:1px solid #ffffff18;box-shadow:0 24px 80px #0008;flex-direction:column;justify-content:space-between}.slide.active{display:flex;animation:pop .35s ease}@keyframes pop{from{opacity:.3;transform:translateY(8px) scale(.99)}to{opacity:1;transform:none}}
+.slide:before{content:"";position:absolute;width:230px;height:230px;border:1px solid #ffffff18;border-radius:50%;right:-95px;bottom:65px;box-shadow:0 0 0 22px #ffffff05,0 0 0 46px #ffffff04;pointer-events:none}
+.kicker{font-size:12px;letter-spacing:2.4px;font-weight:800;color:#ffffffa8;text-transform:uppercase}.big{font-size:clamp(42px,10vw,72px);font-weight:950;line-height:.95;letter-spacing:-3px;margin:18px 0;overflow-wrap:anywhere}.big .accent{color:#ff5260}.desc{font-size:17px;line-height:1.45;color:#e2e1eb;max-width:360px}.foot{display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:1.5px;color:#ffffff85;text-transform:uppercase}.pill{display:inline-block;border:1px solid #ffffff30;border-radius:99px;padding:8px 12px;font-size:12px;margin:4px 5px 0 0;background:#ffffff0b}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}.stat{padding:16px;background:#ffffff10;border:1px solid #ffffff12;border-radius:18px}.stat strong{font-size:29px;display:block;letter-spacing:-1px}.stat small{color:#ffffff9c;font-size:12px}
+.controls{display:flex;align-items:center;gap:10px;max-width:520px;width:100%;margin-top:16px}.controls button,.upload{border:0;border-radius:14px;padding:13px 17px;font-weight:800;cursor:pointer}.controls button{background:#24242d;color:white}.controls .primary,.upload{background:var(--red);color:white}.controls button:disabled{opacity:.3}.dots{display:flex;gap:5px;justify-content:center;flex:1}.dot{height:5px;width:5px;border-radius:99px;background:#555}.dot.on{width:18px;background:var(--red)}.tools{max-width:520px;width:100%;margin-top:18px;padding:17px;border-radius:18px;background:var(--card);border:1px solid #ffffff12}.tools p{margin:0 0 10px;color:var(--muted);font-size:13px;line-height:1.4}.upload{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:14px}.upload input{display:none}.hint{font-size:11px;color:#858594;margin-top:10px}.error{color:#ff7c85;font-size:13px;margin-top:8px}.hidden{display:none!important}
+@media(max-height:760px){.slide{height:66dvh;min-height:490px;padding:24px 21px}.big{font-size:clamp(38px,9vw,62px)}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top"><div class="brand">yapper<span>.</span> wrapped</div><div class="tag" id="yearTag">YOUR RECAP</div></header>
+  <main class="deck" id="deck">
+    <section class="slide active">
+      <div class="kicker">Your Yapper story</div>
+      <div><div class="big">YOU<br>WERE<br><span class="accent">HERE.</span></div><p class="desc" id="intro">A recap built from your Yapper account export.</p><span class="pill" id="usernamePill">@yapper</span></div>
+      <div class="foot"><span>YAPPER WRAPPED</span><span>01 / 06</span></div>
+    </section>
+    <section class="slide">
+      <div class="kicker">The numbers</div><div><div class="big"><span class="accent" id="serverCount">0</span><br>COMMUNITIES</div><p class="desc">Servers in your export. Your digital neighborhood, basically.</p><div class="stats"><div class="stat"><strong id="messageCount">0</strong><small>exported messages</small></div><div class="stat"><strong id="uploadCount">0</strong><small>uploads listed</small></div></div></div>
+      <div class="foot"><span>THE BIG PICTURE</span><span>02 / 06</span></div>
+    </section>
+    <section class="slide">
+      <div class="kicker">Your main hangout</div><div><div class="big" id="topServer">UNKNOWN<br><span class="accent">LOBBY.</span></div><p class="desc" id="topServerDesc">Your most active server in the exported message sample.</p><span class="pill" id="topServerPill">Top server</span></div>
+      <div class="foot"><span>HOME TURF</span><span>03 / 06</span></div>
+    </section>
+    <section class="slide">
+      <div class="kicker">Your social circle</div><div><div class="big"><span class="accent" id="friendCount">0</span><br>FRIENDS</div><p class="desc">Accepted friendships visible in this export.</p><div class="stats"><div class="stat"><strong id="dmCount">0</strong><small>DMs / groups listed</small></div><div class="stat"><strong id="reactionCount">0</strong><small>reactions recorded</small></div></div></div>
+      <div class="foot"><span>YOUR PEOPLE</span><span>04 / 06</span></div>
+    </section>
+    <section class="slide">
+      <div class="kicker">Poll participation</div><div><div class="big"><span class="accent" id="pollCount">0</span><br>POLLS</div><p class="desc" id="pollDesc">Polls included in your export.</p><div id="pollPills"></div></div>
+      <div class="foot"><span>PUBLIC OPINION DEPT.</span><span>05 / 06</span></div>
+    </section>
+    <section class="slide">
+      <div class="kicker">That was your era</div><div><div class="big">STAY<br><span class="accent">YAPPY.</span></div><p class="desc" id="finalDesc">Your recap is based only on data included in the export—not your complete lifetime activity.</p><button class="upload" onclick="shareCard()">Share this card</button></div>
+      <div class="foot"><span id="generatedDate">MADE FROM YOUR EXPORT</span><span>06 / 06</span></div>
+    </section>
+  </main>
+  <nav class="controls"><button id="prev" onclick="move(-1)" disabled>← Back</button><div class="dots" id="dots"></div><button class="primary" id="next" onclick="move(1)">Next →</button></nav>
+  <section class="tools"><p>Load your Yapper JSON export to build your recap. The file is processed in this browser; it isn't uploaded anywhere by this page.</p><label class="upload">Choose JSON export<input id="fileInput" type="file" accept=".json,application/json"></label><div class="hint">Some exports contain only a limited message sample. Counts are labeled accordingly.</div><div class="error" id="error"></div></section>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+let current=0;
+const slides=[...document.querySelectorAll('.slide')];
+function renderSlide(){slides.forEach((s,i)=>s.classList.toggle('active',i===current));$('prev').disabled=current===0;$('next').disabled=current===slides.length-1;$('next').textContent=current===slides.length-1?'End':'Next →';$('dots').innerHTML=slides.map((_,i)=>`<span class="dot ${i===current?'on':''}"></span>`).join('')}
+function move(n){current=Math.max(0,Math.min(slides.length-1,current+n));renderSlide()}
+renderSlide();
+function safeText(v,max=80){return String(v??'').replace(/[<>]/g,'').slice(0,max)}
+function loadData(d){
+ if(!d||!d.account||!Array.isArray(d.servers)||!Array.isArray(d.messages))throw new Error('That does not look like a Yapper account export.');
+ const profile=d.account.profile||{}, messages=d.messages, servers=d.servers, friends=d.friends||[], polls=d.poll_votes||[], dms=d.dms_and_groups||[], reactions=d.reactions||{}, uploads=d.uploads||{};
+ const username=safeText(profile.username||'yapper',40);
+ $('usernamePill').textContent='@'+username;
+ $('intro').textContent=`${safeText(profile.display_name||username,60)} joined Yapper on ${formatDate(d.account.created_at)}. Here's the account snapshot.`;
+ $('yearTag').textContent='YOUR RECAP';
+ $('serverCount').textContent=servers.length;
+ $('messageCount').textContent=messages.length;
+ $('uploadCount').textContent=Number(uploads.count??(uploads.items||[]).length);
+ const counts={};
+ messages.forEach(m=>{const name=m.server_name|| (m.channel_kind==='dm'?'Direct messages':'Unknown server');counts[name]=(counts[name]||0)+1});
+ const ranked=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+ const top=ranked[0];
+ $('topServer').innerHTML=top?`${escapeHtml(top[0]).replace(/\s+/g,'<br>')}`:'NO DATA<br><span class="accent">YET.</span>';
+ $('topServerDesc').textContent=top?`${top[1]} of the ${messages.length} messages included in this export are from this server/channel.`:'No server message data was included in this export.';
+ $('topServerPill').textContent=top?`${top[1]} exported messages`:'No message sample';
+ $('friendCount').textContent=friends.filter(f=>f.status==='accepted').length;
+ $('dmCount').textContent=dms.length;
+ $('reactionCount').textContent=Number(reactions.count??(reactions.items||[]).length);
+ $('pollCount').textContent=polls.length;
+ const voted=polls.filter(p=>Array.isArray(p.option_ids)&&p.option_ids.length>0).length;
+ $('pollDesc').textContent=`${voted} of these ${polls.length} listed polls show a selected option in the export.`;
+ $('pollPills').innerHTML='';
+ const names=servers.slice().sort((a,b)=>new Date(a.joined_at)-new Date(b.joined_at)).slice(0,3);
+ names.forEach(s=>{const span=document.createElement('span');span.className='pill';span.textContent=s.server_name; $('pollPills').appendChild(span)});
+ $('finalDesc').textContent=`${messages.length} messages are present in this export. Some account activity may be missing, so this is a snapshot—not a full lifetime ranking.`;
+ $('generatedDate').textContent='EXPORT: '+formatDate(d.about?.exported_at);
+ current=0;renderSlide();$('error').textContent='';
+}
+function formatDate(v){if(!v)return 'an unknown date';const d=new Date(v);return isNaN(d)?'an unknown date':d.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric',timeZone:'UTC'})}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+$('fileInput').addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{loadData(JSON.parse(await f.text()))}catch(err){$('error').textContent=err.message||'Could not read that JSON file.'}});
+async function shareCard(){
+ const s=slides[current], rect=s.getBoundingClientRect(), scale=2, canvas=document.createElement('canvas');canvas.width=rect.width*scale;canvas.height=rect.height*scale;
+ const ctx=canvas.getContext('2d');ctx.scale(scale,scale);
+ const g=ctx.createLinearGradient(0,0,rect.width,rect.height);g.addColorStop(0,'#282836');g.addColorStop(1,'#111117');ctx.fillStyle=g;ctx.fillRect(0,0,rect.width,rect.height);
+ ctx.fillStyle='#e61e2b';ctx.beginPath();ctx.arc(rect.width*.94,rect.height*.08,rect.width*.31,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#fff';ctx.globalAlpha=.72;ctx.font='800 11px Arial';ctx.fillText(s.querySelector('.kicker')?.textContent||'YAPPER WRAPPED',25,36);ctx.globalAlpha=1;
+ const textEl=s.querySelector('.big');let lines=(textEl?.innerText||'YAPPER WRAPPED').split('\n');let y=140;ctx.font=`950 ${Math.min(58,rect.width*.13)}px Arial`;ctx.textBaseline='top';
+ lines.forEach(line=>{ctx.fillStyle=line.includes('YAPPY')||line.includes('HERE')||line.includes('COMMUNITIES')?'#ff5260':'#fff';let words=line.split(' ');let curr='';words.forEach(word=>{let test=curr?curr+' '+word:word;if(ctx.measureText(test).width>rect.width-50&&curr){ctx.fillText(curr,25,y);y+=Math.min(58,rect.width*.13)*.95;curr=word}else curr=test});if(curr){ctx.fillText(curr,25,y);y+=Math.min(58,rect.width*.13)*.95}});
+ const desc=s.querySelector('.desc')?.textContent||'';ctx.fillStyle='#e2e1eb';ctx.font='16px Arial';wrapText(ctx,desc,25,Math.min(y+20,rect.height-115),rect.width-50,23);
+ ctx.fillStyle='#ffffff80';ctx.font='10px Arial';ctx.fillText('YAPPER WRAPPED',25,rect.height-25);
+ canvas.toBlob(async blob=>{if(!blob)return;const file=new File([blob],'yapper-wrapped.png',{type:'image/png'});try{if(navigator.share&&navigator.canShare?.({files:[file]})){await navigator.share({files:[file],title:'Yapper Wrapped'})}else{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='yapper-wrapped.png';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1500)}}catch(e){}});
+}
+function wrapText(ctx,text,x,y,maxWidth,lineHeight){let line='';for(const word of text.split(/\s+/)){const test=line?line+' '+word:word;if(ctx.measureText(test).width>maxWidth&&line){ctx.fillText(line,x,y);line=word;y+=lineHeight}else line=test}if(line)ctx.fillText(line,x,y)}
+</script>
+</body>
+</html>
